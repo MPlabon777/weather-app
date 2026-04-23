@@ -12,6 +12,17 @@
 <body>
     <div class="container">
         <div class="weather-card">
+            <div class="api-key-section" id="api-key-section" style="display: none;">
+                <div class="api-key-box">
+                    <label for="api-key-input">Enter your OpenWeatherMap API Key:</label>
+                    <div class="api-key-input-group">
+                        <input type="text" id="api-key-input" placeholder="Paste your API key here">
+                        <button id="save-api-key-btn">Save</button>
+                    </div>
+                    <small>Get a free key at <a href="https://openweathermap.org/api" target="_blank">openweathermap.org/api</a></small>
+                </div>
+            </div>
+
             <div class="search-box">
                 <input type="text" id="city-input" placeholder="Enter city name">
                 <button id="search-btn">Search</button>

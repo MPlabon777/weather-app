@@ -1,12 +1,17 @@
 // OpenWeatherMap API configuration
-const API_KEY = '99f7de91f5bacbfe977c94d029e59581';
 const API_BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
+
+// Get API key from localStorage or use empty string
+let API_KEY = localStorage.getItem('weather_api_key') || '';
 
 // DOM Elements
 const cityInput = document.getElementById('city-input');
 const searchBtn = document.getElementById('search-btn');
 const errorMessage = document.getElementById('error-message');
 const weatherInfo = document.getElementById('weather-info');
+const apiKeyInput = document.getElementById('api-key-input');
+const saveApiKeyBtn = document.getElementById('save-api-key-btn');
+const apiKeySection = document.getElementById('api-key-section');
 
 // Weather display elements
 const locationEl = document.getElementById('location');
@@ -27,9 +32,32 @@ cityInput.addEventListener('keypress', (e) => {
     }
 });
 
+// Save API key to localStorage
+saveApiKeyBtn.addEventListener('click', () => {
+    const key = apiKeyInput.value.trim();
+    if (key) {
+        localStorage.setItem('weather_api_key', key);
+        API_KEY = key;
+        apiKeySection.style.display = 'none';
+        fetchWeather();
+    }
+});
+
+// Show API key input if not saved
+if (!API_KEY) {
+    apiKeySection.style.display = 'block';
+} else {
+    apiKeySection.style.display = 'none';
+}
+
 // Fetch weather data from API
 async function fetchWeather() {
     const city = cityInput.value.trim();
+
+    if (!API_KEY) {
+        showError('Please enter your API key first');
+        return;
+    }
 
     if (!city) {
         showError('Please enter a city name');
